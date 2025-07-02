@@ -67,7 +67,34 @@
             $Subject = "";
             $Message = "";
 
-            
+            //
+            if (isset($_POST['Submit'])) {
+                $Sender = validateInput($_POST['Sender'], "Your Name");
+                $Email = validateEmail($_POST['Email'], "Your E-mail");
+                $Subject = validateInput($_POST['Subject'], "Subject");
+                $Message = validateInput($_POST['Message'], "Message");
+                if ($errorCount == 0 )
+                    $ShowForm = FALSE;
+                else
+                    $ShowForm = TRUE;
+            }
+
+            //
+            if ($ShowForm == TRUE) {
+                if ($errorCount > 0)
+                    echo "<p>Please re-enter the form information below.</p>\n";
+                    displayForm($Sender,$Email,$Subject,$Message);
+            } else {
+                $SenderAddress = "$Sender <$Email>";
+                $Headers = "From: $SenderAddress\nCC: $SenderAddress\n";
+
+                $result = mail("hongharold3469@gmail.com", $Subject, $Message, $Headers);
+
+                if ($result)
+                    echo "<p>Your message has been sent. Thank you, " . $Sender . ".</p>\n";
+                else
+                    echo "<p>There was an error sending your message, " . $Sender . ".</p>\n";
+            }
 
         ?>
     </body>

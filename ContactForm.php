@@ -8,11 +8,17 @@
     <body>
         <?php 
 
-            //checks if $data is empty
+            /*
+                function that checks if $data is empty or not.
+                $errorCount is a global variable.
+                if $data is empty, a message with $fieldName will be shown as a required field, also $errorCount will be incremented
+                and $retval is returned as "".
+                otherwise $retval will be returned as data that is trimmed and stripped of backslashes.
+            */
             function validateInput($data, $fieldName) {
                 global $errorCount;
                 if (empty($data)) {
-                    echo "\"$fieldName\" is a required field.<br .?\n";
+                    echo "\"$fieldName\" is a required field. <br />\n";
                     ++$errorCount;
                     $retval = "";
                 } else {
@@ -22,7 +28,15 @@
                 return($retval);
             }
 
-            //
+            /* 
+                function that validates the email.
+                $errorCount is a global variable.
+                if $data is empty, a message will be shown saying $fieldName is a required field, $errorCount will be incremented
+                and $retval is returned as "".
+                otherwise $retval will be the filtered version of $data and then checked to see if it is a valid email address.
+                if it is not a valid email address, a message will be shown.
+                if it is valid it will be returned.
+            */
             function validateEmail($data, $fieldName) {
                 global $errorCount;
 
@@ -40,7 +54,12 @@
                 return($retval);
             }
 
-            //
+            /*
+                displays the form and creates it as a sticky form.
+                this creates the form you will see when visiting the web page.
+                a sticky form is when the input boxes holds the information filled in when an error occurs.
+                inputs are put in the form tab to relay the information later on.
+            */
             function displayForm($Sender, $Email, $Subject, $Message) {
                  ?> <h2 style = "text-align:center">Contact Me</h2>
                     <form name="contact" action="ContactForm.php" method="post">
@@ -59,7 +78,7 @@
                     <?php
             }
 
-            //variables
+            //variables initialized to prevent undefined variable errors
             $ShowForm = TRUE;
             $errorCount = 0;
             $Sender = "";
@@ -67,7 +86,12 @@
             $Subject = "";
             $Message = "";
 
-            //
+            /*
+                isset function checks if the $_POST array, if the key 'submit' exists and is not null.
+                also checks if the submit was pressed.
+                the recently added variables are filled with validated data returned from the validateInput and validateEmail functions.
+                if the global $errorCount is 0, $ShowForm will = false, otherwise $ShowForm will be true.
+            */
             if (isset($_POST['Submit'])) {
                 $Sender = validateInput($_POST['Sender'], "Your Name");
                 $Email = validateEmail($_POST['Email'], "Your E-mail");
@@ -79,7 +103,10 @@
                     $ShowForm = TRUE;
             }
 
-            //
+            /*
+                if $ShowForm is true an error message will be shown and the form will be redisplayed.
+                otherwise a mail will be sent to 
+            */
             if ($ShowForm == TRUE) {
                 if ($errorCount > 0)
                     echo "<p>Please re-enter the form information below.</p>\n";
@@ -95,6 +122,15 @@
                 else
                     echo "<p>There was an error sending your message, " . $Sender . ".</p>\n";
             }
+
+            /* 
+                My Reflections:
+                I am quite amazed at the way this php form was created.
+                The way they count errors is new to me.
+                I am wondering if they can do more with the $errorCount.
+                One problem I noticed is when you press clear form on a "sticky" input box it will not clear it but it will return the previous value.
+                I was confused about all the code until I watched the youtube videos that were posted in canvas. The videos helped me understand the process of the forms.
+            */
 
         ?>
     </body>

@@ -105,7 +105,8 @@
 
             /*
                 if $ShowForm is true an error message will be shown and the form will be redisplayed.
-                otherwise a mail will be sent to 
+                otherwise a mail will be sent to me. I think we send a copy of the email to the sender, so they can check if its accurate.
+                if $result comes back as true, a confirmation message will be displayed, otherwise an error message will appear.
             */
             if ($ShowForm == TRUE) {
                 if ($errorCount > 0)
